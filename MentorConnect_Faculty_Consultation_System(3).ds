@@ -1,0 +1,4872 @@
+/*
+ * Author       : barathraj.sp.2024.cse_raj102
+ * Generated on : 10-Nov-2026 09:53:59
+ * Version      : 1.0
+ */
+ application "MentorConnect Faculty Consultation System"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "Asia/Kolkata"
+ 	time format = "24-hr"
+
+ 	forms
+	{
+		form appointment
+		{
+			displayname = "Appointment"
+			success message = "Appointment Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			appointment_id
+			(
+    			type = autonumber
+				displayname = "Appointment ID"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have consultation_request
+			(
+				type = list	
+				displayname = "Consultation Request"
+				values  = consultation_request.ID
+    			displayformat = [request_id]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 13px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have student
+			(
+				type = list	
+				displayname = "Student"
+				values  = student_registration.ID
+    			displayformat = [student_name.first_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 13px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have faculty
+			(
+				type = list	
+				displayname = "Faculty"
+				values  = faculty_master.ID
+    			displayformat = [faculty_name.first_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 13px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have appointment_date
+			(
+    			type = date
+				displayname = "Appointment Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have start_time
+			(
+    			type = time
+				displayname = "Start Time"
+				timedisplayoptions = "hh:mm:ss" 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have end_time
+			(
+    			type = time
+				displayname = "End Time"
+				timedisplayoptions = "hh:mm:ss" 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have mode
+			(
+				type = picklist
+				displayname = "Mode"
+				values = {"Hybrid","Offline","Online"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			location_meeting_link
+			(
+    			type = url
+				displayname = "Location / Meeting Link"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			status
+			(
+				type = picklist
+				displayname = "Status"
+				values = {"Scheduled","Reminder Sent","No Show","Completed","Cancelled","Rescheduled"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			confirmation_sent
+			(
+    			type = checkbox
+				displayname = "Confirmation Sent"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+			blueprint components
+			{
+				stages = {"Appointment Draft","Appointment Scheduled","Appointment Cancelled","Appointment Pending Confirmation","Appointment Confirmed","Appointment Rescheduled","Appointment In Progress","Appointment Completed","Appointment On Hold","Appointment Closed","Appointment Follow-up Required"}
+			}
+		}
+		form consultation_record_feedback
+		{
+			displayname = "Consultation Record Feedback"
+			success message = "Consultation Record Feedback Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have appointment
+			(
+				type = list	
+				displayname = "Appointment"
+				values  = appointment.ID
+    			displayformat = [appointment_id]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 13px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have student
+			(
+				type = list	
+				displayname = "Student"
+				values  = student_registration.ID
+    			displayformat = [student_name.first_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 13px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have faculty
+			(
+				type = list	
+				displayname = "Faculty"
+				values  = faculty_master.ID
+    			displayformat = [faculty_name.first_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 13px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have consultation_date
+			(
+    			type = date
+				displayname = "Consultation Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			discussion_summary
+			(
+    			type = textarea
+				displayname = "Discussion Summary"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			advice_action_items
+			(
+    			type = textarea
+				displayname = "Advice / Action Items"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have outcome_status
+			(
+				type = picklist
+				displayname = "Outcome Status"
+				values = {"Unresolved","Partial","Resolved"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			follow_up_required
+			(
+    			type = checkbox
+				displayname = "Follow-up Required"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			follow_up_date
+			(
+    			type = date
+				displayname = "Follow-up Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have student_rating
+			(
+				type = number
+				displayname = "Student Rating"
+				maxchar = 19
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have student_feedback
+			(
+    			type = textarea
+				displayname = "Student Feedback"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have closure_status
+			(
+				type = radiobuttons
+				displayname = "Closure Status"
+				values = {"Closed","Open"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Sentiment
+			(
+				type = picklist
+				displayname = "Sentiment Analysis"
+				maxchar = 100
+	 			row = 1
+	 			column = 1   
+				width = medium
+						AI_Properties
+						(
+									fieldtype = SentimentAnalysis
+									basefield = student_feedback
+						)
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form consultation_request
+		{
+			displayname = "Consultation Request"
+			success message = "Consultation Request Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			request_id
+			(
+    			type = autonumber
+				displayname = "Request ID"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have student
+			(
+				type = list	
+				displayname = "Student"
+				values  = student_registration.ID
+    			displayformat = [student_name.first_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 60px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have faculty
+			(
+				type = list	
+				displayname = "Faculty"
+				values  = faculty_master.ID
+    			displayformat = [faculty_name.first_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 60px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have preferred_date
+			(
+    			type = date
+				displayname = "Preferred Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have preferred_time_slot
+			(
+    			type = time
+				displayname = "Preferred Time Slot"
+				timedisplayoptions = "hh:mm:ss" 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have consultation_type
+			(
+				type = picklist
+				displayname = "Consultation Type"
+				values = {"Attendance","Project","General","Academic","Course","Career","Other"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have concern_category
+			(
+				type = picklist
+				displayname = "Concern Category"
+				values = {"Attendance","Project","General","Academic","Course","Career","Other"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			concern_description
+			(
+    			type = textarea
+				displayname = "Concern Description"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have priority
+			(
+				type = picklist
+				displayname = "Priority"
+				values = {"High","Urgent","Low","Medium"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			status
+			(
+				type = picklist
+				displayname = "Status"
+				values = {"Submitted","Reschedule Requested","Completed","Confirmed","Cancelled"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			faculty_remarks
+			(
+    			type = textarea
+				displayname = "Faculty Remarks"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			availability_notification_sent
+			(
+    			type = checkbox
+				displayname = "Availability Notification Sent"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+			blueprint components
+			{
+				stages = {"Request Submitted","Pending Faculty Assignment","Request Cancelled","Faculty Assigned","In Progress","Under Review","Completed","Closed"}
+			}
+		}
+		form department_master
+		{
+			displayname = "Department Master"
+			success message = "Department Master Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			department_id
+			(
+    			type = autonumber
+				displayname = "Department ID"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have department_name
+			(
+    			type = text
+				displayname = "Department Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have department_code
+			(
+    			type = text
+				displayname = "Department Code"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have office_email
+			(
+    			type = email
+				displayname = "Office Email"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			department_coordinator
+			(
+    			type = name
+				displayname = "Department Coordinator"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+	     			 visibility = false
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			status
+			(
+				type = radiobuttons
+				displayname = "Status"
+				values = {"Active","Inactive"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form faculty_availability
+		{
+			displayname = "Faculty Availability"
+			success message = "Faculty Availability Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have faculty
+			(
+				type = list	
+				displayname = "Faculty"
+				values  = faculty_master.ID
+    			displayformat = [faculty_name.first_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 13px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have day
+			(
+				type = picklist
+				displayname = "Day"
+				values = {"Monday","Thursday","Friday","Sunday","Wednesday","Tuesday","Saturday"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have start_time
+			(
+    			type = time
+				displayname = "Start Time"
+				timedisplayoptions = "hh:mm:ss" 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have end_time
+			(
+    			type = time
+				displayname = "End Time"
+				timedisplayoptions = "hh:mm:ss" 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have max_appointments
+			(
+				type = number
+				displayname = "Max Appointments"
+				maxchar = 19
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have mode
+			(
+				type = picklist
+				displayname = "Mode"
+				values = {"Hybrid","Offline","Online"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			location_meeting_link
+			(
+    			type = url
+				displayname = "Location / Meeting Link"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have status
+			(
+				type = radiobuttons
+				displayname = "Status"
+				values = {"Available","Unavailable"}
+				initial value = "Available"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form faculty_master
+		{
+			displayname = "Faculty Master"
+			success message = "Faculty Master Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			faculty_id
+			(
+    			type = autonumber
+				displayname = "Faculty ID"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have faculty_name
+			(
+    			type = name
+				displayname = "Faculty Name"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+	     			 visibility = false
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have department
+			(
+				type = list	
+				displayname = "Department"
+				values  = department_master.ID
+    			displayformat = [department_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 13px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have designation
+			(
+    			type = text
+				displayname = "Designation"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			specialization
+			(
+    			type = text
+				displayname = "Specialization"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have email
+			(
+    			type = email
+				displayname = "Email"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			phone_number
+			(
+    			type = phonenumber
+				displayname = "Phone Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have status
+			(
+				type = radiobuttons
+				displayname = "Status"
+				values = {"Active","Inactive"}
+				initial value = "Active"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form student_registration
+		{
+			displayname = "Student Registration"
+			success message = "Student Registration Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			student_id
+			(
+    			type = autonumber
+				displayname = "Student ID"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have student_name
+			(
+    			type = name
+				displayname = "Student Name"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+	     			 visibility = false
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have register_number
+			(
+    			type = text
+				displayname = "Register Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have department
+			(
+				type = list	
+				displayname = "Department"
+				values  = department_master.ID
+    			displayformat = [department_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 60px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have year_semester
+			(
+    			type = text
+				displayname = "Year / Semester"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have email
+			(
+    			type = email
+				displayname = "Email"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have mobile_number
+			(
+    			type = phonenumber
+				displayname = "Mobile Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			mentor
+			(
+				type = list	
+				displayname = "Mentor"
+				values  = faculty_master.ID
+    			displayformat = [faculty_name.first_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+				height = 60px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have status
+			(
+				type = radiobuttons
+				displayname = "Status"
+				values = {"Active","Inactive"}
+				initial value = "Active"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+	}
+	reports
+	{
+		list appointment_Report
+		{
+			displayName = "All Appointments"
+			show all rows from appointment    
+			(
+				appointment_id as "Appointment ID"
+				consultation_request as "Consultation Request"
+				student as "Student"
+				faculty as "Faculty"
+				appointment_date as "Appointment Date"
+				start_time as "Start Time"
+				end_time as "End Time"
+				mode as "Mode"
+				location_meeting_link as "Location / Meeting Link"
+				status as "Status"
+				confirmation_sent as "Confirmation Sent"
+			)
+			conditional formatting
+			(
+				"New Formatting1"
+				{
+				condition = (mode == "Hybrid")
+				fields = [mode]
+				format = "color:#ffffff;background-color:#765f89;"
+				}
+				"New Formatting2"
+				{
+				condition = (mode == "Offline")
+				fields = [mode]
+				format = "color:#000000;background-color:#1bbc9b;"
+				}
+			)
+		}
+		kanban appointment_by_status
+		{
+			displayName = "Statuses"
+			show all rows from appointment    
+			(
+				appointment_id as "Appointment ID"
+				consultation_request as "Consultation Request"
+				student as "Student"
+				faculty as "Faculty"
+				appointment_date as "Appointment Date"
+				start_time as "Start Time"
+				end_time as "End Time"
+				mode as "Mode"
+				location_meeting_link as "Location / Meeting Link"
+				status as "Status"
+				confirmation_sent as "Confirmation Sent"
+			)
+			options
+			(
+	 			display field = status
+	 		)
+		}
+		list consultation_request_Report
+		{
+			displayName = "All Consultation Requests"
+			show all rows from consultation_request    
+			(
+				request_id as "Request ID"
+				student as "Student"
+				faculty as "Faculty"
+				preferred_date as "Preferred Date"
+				preferred_time_slot as "Preferred Time Slot"
+				consultation_type as "Consultation Type"
+				concern_category as "Concern Category"
+				concern_description as "Concern Description"
+				priority as "Priority"
+				status as "Status"
+				faculty_remarks as "Faculty Remarks"
+			)
+			conditional formatting
+			(
+				"New Formatting1"
+				{
+				condition = (priority == "Low")
+				fields = [priority]
+				format = "color:#ffffff;background-color:#765f89;"
+				}
+				"New Formatting2"
+				{
+				condition = (priority == "Medium")
+				fields = [priority]
+				format = "color:#000000;background-color:#1bbc9b;"
+				}
+				"New Formatting3"
+				{
+				condition = (priority == "Urgent")
+				fields = [priority]
+				format = "color:#ffffff;background-color:#e84c3d;"
+				}
+			)
+		}
+		kanban consultation_request_by_consultation_type
+		{
+			displayName = "Consultation Types"
+			show all rows from consultation_request    
+			(
+				request_id as "Request ID"
+				student as "Student"
+				faculty as "Faculty"
+				preferred_date as "Preferred Date"
+				preferred_time_slot as "Preferred Time Slot"
+				consultation_type as "Consultation Type"
+				concern_category as "Concern Category"
+				concern_description as "Concern Description"
+				priority as "Priority"
+				status as "Status"
+				faculty_remarks as "Faculty Remarks"
+			)
+			options
+			(
+	 			display field = consultation_type
+	 		)
+		}
+		list consultation_record_feedback_Report
+		{
+			displayName = "All Consultation Record Feedback"
+			show all rows from consultation_record_feedback    
+			(
+				appointment as "Appointment"
+				student as "Student"
+				faculty as "Faculty"
+				consultation_date as "Consultation Date"
+				discussion_summary as "Discussion Summary"
+				advice_action_items as "Advice / Action Items"
+				outcome_status as "Outcome Status"
+				follow_up_required as "Follow-up Required"
+				follow_up_date as "Follow-up Date"
+				student_rating as "Student Rating"
+				student_feedback as "Student Feedback"
+				closure_status as "Closure Status"
+			)
+			conditional formatting
+			(
+				"New Formatting1"
+				{
+				condition = (outcome_status == "Partial")
+				fields = [outcome_status]
+				format = "color:#ffffff;background-color:#765f89;"
+				}
+				"New Formatting2"
+				{
+				condition = (outcome_status == "Resolved")
+				fields = [outcome_status]
+				format = "color:#000000;background-color:#1bbc9b;"
+				}
+				"New Formatting3"
+				{
+				condition = (outcome_status == "Unresolved")
+				fields = [outcome_status]
+				format = "color:#ffffff;background-color:#e84c3d;"
+				}
+			)
+		}
+		kanban consultation_record_feedbac_by_outcome_status
+		{
+			displayName = "Outcome Statuses"
+			show all rows from consultation_record_feedback    
+			(
+				appointment as "Appointment"
+				student as "Student"
+				faculty as "Faculty"
+				consultation_date as "Consultation Date"
+				discussion_summary as "Discussion Summary"
+				advice_action_items as "Advice / Action Items"
+				outcome_status as "Outcome Status"
+				follow_up_required as "Follow-up Required"
+				follow_up_date as "Follow-up Date"
+				student_rating as "Student Rating"
+				student_feedback as "Student Feedback"
+				closure_status as "Closure Status"
+			)
+			options
+			(
+	 			display field = outcome_status
+	 		)
+		}
+		list department_master_Report
+		{
+			displayName = "All Department Masters"
+			show all rows from department_master    
+			(
+				department_id as "Department ID"
+				department_name as "Department Name"
+				department_code as "Department Code"
+				office_email as "Office Email"
+				department_coordinator  as "Department Coordinator"
+				status as "Status"
+			)
+		}
+		list faculty_master_Report
+		{
+			displayName = "All Faculty Masters"
+			show all rows from faculty_master    
+			(
+				faculty_id as "Faculty ID"
+				faculty_name  as "Faculty Name"
+				department as "Department"
+				designation as "Designation"
+				specialization as "Specialization"
+				email as "Email"
+				phone_number as "Phone Number"
+				status as "Status"
+			)
+		}
+		list faculty_availability_Report
+		{
+			displayName = "All Faculty Availabilities"
+			show all rows from faculty_availability    
+			(
+				faculty as "Faculty"
+				day as "Day"
+				start_time as "Start Time"
+				end_time as "End Time"
+				max_appointments as "Max Appointments"
+				mode as "Mode"
+				location_meeting_link as "Location / Meeting Link"
+				status as "Status"
+			)
+			conditional formatting
+			(
+				"New Formatting1"
+				{
+				condition = (mode == "Hybrid")
+				fields = [mode]
+				format = "color:#ffffff;background-color:#765f89;"
+				}
+				"New Formatting2"
+				{
+				condition = (mode == "Offline")
+				fields = [mode]
+				format = "color:#000000;background-color:#1bbc9b;"
+				}
+				"New Formatting3"
+				{
+				condition = (mode == "Online")
+				fields = [mode]
+				format = "color:#ffffff;background-color:#e84c3d;"
+				}
+			)
+		}
+		kanban faculty_availability_by_day
+		{
+			displayName = "Days"
+			show all rows from faculty_availability    
+			(
+				faculty as "Faculty"
+				day as "Day"
+				start_time as "Start Time"
+				end_time as "End Time"
+				max_appointments as "Max Appointments"
+				mode as "Mode"
+				location_meeting_link as "Location / Meeting Link"
+				status as "Status"
+			)
+			options
+			(
+	 			display field = day
+	 		)
+		}
+		list student_registration_Report
+		{
+			displayName = "All Student Registrations"
+			show all rows from student_registration    
+			(
+				student_id as "Student ID"
+				student_name  as "Student Name"
+				register_number as "Register Number"
+				department as "Department"
+				year_semester as "Year / Semester"
+				email as "Email"
+				mobile_number as "Mobile Number"
+				mentor as "Mentor"
+				status as "Status"
+			)
+		}
+		list Student_Registration_Report1
+		{
+			displayName = "Student Registration Report"
+			show all rows from student_registration    
+			(
+				student_id as "Student ID"
+				student_name  as "Student Name"
+				register_number as "Register Number"
+				department as "Department"
+				year_semester as "Year / Semester"
+				email as "Email"
+				mobile_number as "Mobile Number"
+				(
+					displayformat = plainnumber 
+				)
+				mentor as "Mentor"
+				status as "Status"
+			)
+		}
+		list Faculty_Master_Report1
+		{
+			displayName = "Faculty Master Report"
+			show all rows from faculty_master    
+			(
+				faculty_id as "Faculty ID"
+				faculty_name  as "Faculty Name"
+				department as "Department"
+				designation as "Designation"
+				specialization as "Specialization"
+				email as "Email"
+				phone_number as "Phone Number"
+				(
+					displayformat = plainnumber 
+				)
+				status as "Status"
+			)
+		}
+		list Faculty_Availablity_Report
+		{
+			displayName = "Faculty Availablity Report"
+			show all rows from faculty_availability    
+			(
+				faculty as "Faculty"
+				day as "Day"
+				start_time as "Start Time"
+				end_time as "End Time"
+				max_appointments as "Max Appointments"
+				mode as "Mode"
+				location_meeting_link as "Location / Meeting Link"
+				status as "Status"
+			)
+		}
+		list Consultation_Request_Report1
+		{
+			displayName = "Consultation Request Report"
+			show all rows from consultation_request    
+			(
+				request_id as "Request ID"
+				student as "Student"
+				faculty as "Faculty"
+				preferred_date as "Preferred Date"
+				preferred_time_slot as "Preferred Time Slot"
+				consultation_type as "Consultation Type"
+				concern_category as "Concern Category"
+				concern_description as "Concern Description"
+				priority as "Priority"
+				status as "Status"
+				faculty_remarks as "Faculty Remarks"
+			)
+		}
+		list Department_Master_Report1
+		{
+			displayName = "Department Master Report"
+			show all rows from department_master    
+			(
+				department_id as "Department ID"
+				department_name as "Department Name"
+				department_code as "Department Code"
+				office_email as "Office Email"
+				department_coordinator  as "Department Coordinator"
+				status as "Status"
+			)
+		}
+		list Consultation_Record_Feedback_Report1
+		{
+			displayName = "Consultation Record Feedback Report"
+			show all rows from consultation_record_feedback    
+			(
+				appointment as "Appointment"
+				student as "Student"
+				faculty as "Faculty"
+				consultation_date as "Consultation Date"
+				discussion_summary as "Discussion Summary"
+				advice_action_items as "Advice / Action Items"
+				outcome_status as "Outcome Status"
+				follow_up_required as "Follow-up Required"
+				follow_up_date as "Follow-up Date"
+				student_rating as "Student Rating"
+				student_feedback as "Student Feedback"
+				closure_status as "Closure Status"
+				Sentiment as "Sentiment Analysis"
+			)
+		}
+		list Appointment_Report1
+		{
+			displayName = "Appointment Report"
+			show all rows from appointment    
+			(
+				appointment_id as "Appointment ID"
+				consultation_request as "Consultation Request"
+				student as "Student"
+				faculty as "Faculty"
+				appointment_date as "Appointment Date"
+				start_time as "Start Time"
+				end_time as "End Time"
+				mode as "Mode"
+				location_meeting_link as "Location / Meeting Link"
+				status as "Status"
+				confirmation_sent as "Confirmation Sent"
+			)
+		}
+		list sentiment_analysis_dashboard
+		{
+			displayName = "Sentiment Analysis Dashboard"
+			show all rows from consultation_record_feedback    
+			(
+				Sentiment as "Sentiment Analysis"
+				outcome_status as "Outcome Status"
+				student as "Student"
+				faculty as "Faculty"
+				consultation_date as "Consultation Date"
+				student_rating as "Student Rating"
+				closure_status as "Closure Status"
+				student_feedback as "Student Feedback"
+			)
+			filters
+			(
+				Sentiment
+				outcome_status
+				closure_status
+			)
+			group by
+			(
+				Sentiment ascending
+			)
+			sort by
+			(
+				consultation_date descending
+			)
+		}
+		list negative_feedback_review
+		{
+			displayName = "Negative Feedback Review"
+			show all rows from consultation_record_feedback    
+			(
+				Sentiment as "Sentiment Analysis"
+				outcome_status as "Outcome Status"
+				student as "Student"
+				faculty as "Faculty"
+				consultation_date as "Consultation Date"
+				student_rating as "Student Rating"
+				closure_status as "Closure Status"
+				student_feedback as "Student Feedback"
+				follow_up_required as "Follow-up Required"
+				follow_up_date as "Follow-up Date"
+			)
+			filters
+			(
+				Sentiment
+				outcome_status
+				closure_status
+				"Negative Feedback Only"  :  Sentiment == "Negative"
+			)
+			sort by
+			(
+				consultation_date descending
+			)
+		}
+	}
+	pages
+	{
+		page MentorConnect_Dashboard1
+		{
+			displayname = "MentorConnect Dashboard"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FF4C2F'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = '385'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'New employees this month'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='20%'\n   \t>\n\t<panel elementName='Panel 1'\n \n\t\n\ttitle = 'Total Students'\n\t\n\t\ttitleColor = '#222326'\n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '17px'\n\tpaddingLeft = '17px'\n\tpaddingRight = '17px'\n\tpaddingBottom = '0px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Form Data'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n    borderColor = '#333333'\n    borderWidth = '0px'\n\n\t  value = 'thisapp.student_registration.ID.count'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '17px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#000000'\n\tsize = '20px'\n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#000000'\n    borderWidth = '0px'\n\n\t  value = 'Total Students'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tmarginTop = '2px'\n\tpadding = '0px'\n\tcolor = '#FF4C2F'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#FF4C2F'\n    borderWidth = '0px'\n\n\t  value = '385'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='19%'\n   \t>\n\t<panel elementName='Panel 2'\n \n\t\n\ttitle = 'Total Faculty'\n\t\n\t\ttitleColor = '#222326'\n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '17px'\n\tpaddingLeft = '17px'\n\tpaddingRight = '17px'\n\tpaddingBottom = '0px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Form Data'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n    borderColor = '#333333'\n    borderWidth = '0px'\n\n\t\tcriteria = 'status == &quot;Submitted&quot;'\n\t  value = 'thisapp.consultation_request.ID.count'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '17px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#000000'\n\tsize = '20px'\n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#000000'\n    borderWidth = '0px'\n\n\t  value = 'Total Faculty'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tmarginTop = '2px'\n\tpadding = '0px'\n\tcolor = '#FF4C2F'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#FF4C2F'\n    borderWidth = '0px'\n\n\t  value = '385'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='19%'\n   \t>\n\t<panel elementName='Panel 3'\n \n\t\n\ttitle = 'Pending Requests'\n\t\n\t\ttitleColor = '#222326'\n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '17px'\n\tpaddingLeft = '17px'\n\tpaddingRight = '17px'\n\tpaddingBottom = '0px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Form Data'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n    borderColor = '#333333'\n    borderWidth = '0px'\n\n\t  value = 'thisapp.faculty_master.ID.count'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '17px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#000000'\n\tsize = '20px'\n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#000000'\n    borderWidth = '0px'\n\n\t  value = 'Pending Requests'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tmarginTop = '2px'\n\tpadding = '0px'\n\tcolor = '#FF4C2F'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#FF4C2F'\n    borderWidth = '0px'\n\n\t  value = '385'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='20%'\n   \t>\n\t<panel elementName='Panel 4'\n \n\t\n\ttitle = 'Upcoming Appointments'\n\t\n\t\ttitleColor = '#222326'\n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '17px'\n\tpaddingLeft = '17px'\n\tpaddingRight = '17px'\n\tpaddingBottom = '0px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Form Data'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n    borderColor = '#333333'\n    borderWidth = '0px'\n\n\t\tcriteria = 'status == &quot;Scheduled&quot; &amp;&amp; appointment_date &gt; &apos;08-Oct-2026&apos;'\n\t  value = 'thisapp.appointment.ID.count'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '17px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#000000'\n\tsize = '20px'\n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#000000'\n    borderWidth = '0px'\n\n\t  value = 'Upcoming Appointments'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tmarginTop = '2px'\n\tpadding = '0px'\n\tcolor = '#FF4C2F'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#FF4C2F'\n    borderWidth = '0px'\n\n\t  value = '385'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='22%'\n   \t>\n\t<panel elementName='Panel 5'\n \n\t\n\ttitle = 'Completed Consultations'\n\t\n\t\ttitleColor = '#222326'\n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '17px'\n\tpaddingLeft = '17px'\n\tpaddingRight = '17px'\n\tpaddingBottom = '0px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Form Data'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n    borderColor = '#333333'\n    borderWidth = '0px'\n\n\t\tcriteria = 'status == &quot;Completed&quot;'\n\t  value = 'thisapp.appointment.ID.count'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '17px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#000000'\n\tsize = '20px'\n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#000000'\n    borderWidth = '0px'\n\n\t  value = 'Completed Consultations'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tmarginTop = '2px'\n\tpadding = '0px'\n\tcolor = '#FF4C2F'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#FF4C2F'\n    borderWidth = '0px'\n\n\t  value = '385'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<chart \n\telementName='Appointment Status Distribution'\n\n\ttype = 'Pie'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'appointment'\n\txfield = 'status'\n\tyfields = 'count:appointment_id'\n/>\n\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<chart \n\telementName='Consultation Trend'\n\n\ttype = 'Line'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'appointment'\n\txfield = 'appointment_date'\n\tyfields = 'count:appointment_id'\n/>\n\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<chart \n\telementName='Student Concern Analysis'\n\n\ttype = 'Bar'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'consultation_request'\n\txfield = 'concern_category'\n\tyfields = 'count:request_id'\n/>\n\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<chart \n\telementName='Consultation Mode Distribution'\n\n\ttype = 'Bar'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'appointment'\n\txfield = 'mode'\n\tyfields = 'count:appointment_id'\n/>\n\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<chart \n\telementName='Consultation Outcome Analysis'\n\n\ttype = 'Pie'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'consultation_record_feedback'\n\txfield = 'outcome_status'\n\tyfields = 'count:outcome_status'\n/>\n\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<report \n\telementName='Recent &amp; Upcoming Appointments'\n\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'appointment_Report'\n\t\n\t\tiszreport = 'false'\n\theightType = 'auto'\n\theightValue = '700'\n/>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<report \n\telementName='Consultation Requests'\n\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'consultation_request_Report'\n\t\n\t\tiszreport = 'false'\n\theightType = 'auto'\n\theightValue = '700'\n/>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<report \n\telementName='Consultation Outcomes &amp; Feedback'\n\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'consultation_record_feedback_Report'\n\t\n\t\tiszreport = 'false'\n\theightType = 'auto'\n\theightValue = '700'\n/>\n</column>\n</row><row>\n\t<column\n   \t\t width='50%'\n   \t>\n\t<panel elementName='Panel 6'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n\t\tvAlign = 'middle'\n>\n\t<button \n\t\tmargin = '0px'\n\tpaddingTop = '12px'\n\tpaddingLeft = '15px'\n\tpaddingRight = '15px'\n\tpaddingBottom = '12px'\n\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'consultation_request'\n\t\ttarget = 'new-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n    borderColor = '#FFFFFF'\n    borderWidth = '0px'\n\ttext ='Book Consultation'\n\t\tbgColor = 'theme'\n\t\tcornerRadius = '60px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='50%'\n   \t>\n\t<panel elementName='Panel 7'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n\t\tvAlign = 'middle'\n>\n\t<button \n\t\tmargin = '0px'\n\tpaddingTop = '12px'\n\tpaddingLeft = '15px'\n\tpaddingRight = '15px'\n\tpaddingBottom = '12px'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'consultation_request_Report'\n\t\ttarget = 'new-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n    borderColor = '#FFFFFF'\n    borderWidth = '0px'\n\ttext ='My Requests'\n\t\tbgColor = 'theme'\n\t\tcornerRadius = '60px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='50%'\n   \t>\n\t<panel elementName='Panel 8'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n\t\tvAlign = 'middle'\n>\n\t<button \n\t\tmargin = '0px'\n\tpaddingTop = '12px'\n\tpaddingLeft = '15px'\n\tpaddingRight = '15px'\n\tpaddingBottom = '12px'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'appointment_Report'\n\t\ttarget = 'new-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n    borderColor = '#FFFFFF'\n    borderWidth = '0px'\n\ttext ='My Appointments'\n\t\tbgColor = 'theme'\n\t\tcornerRadius = '60px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='50%'\n   \t>\n\t<panel elementName='Panel 9'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n\t\tvAlign = 'middle'\n>\n\t<button \n\t\tmargin = '0px'\n\tpaddingTop = '12px'\n\tpaddingLeft = '15px'\n\tpaddingRight = '15px'\n\tpaddingBottom = '12px'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'faculty_availability_Report'\n\t\ttarget = 'new-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n    borderColor = '#FFFFFF'\n    borderWidth = '0px'\n\ttext ='Faculty Availability'\n\t\tbgColor = 'theme'\n\t\tcornerRadius = '60px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel 10'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n\t\tvAlign = 'middle'\n>\n\t<button \n\t\tmargin = '0px'\n\tpaddingTop = '12px'\n\tpaddingLeft = '15px'\n\tpaddingRight = '15px'\n\tpaddingBottom = '12px'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'consultation_record_feedback_Report'\n\t\ttarget = 'new-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n    borderColor = '#FFFFFF'\n    borderWidth = '0px'\n\ttext ='Consultation History'\n\t\tbgColor = 'theme'\n\t\tcornerRadius = '60px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row>\n</layout>\n</zml>"
+		}
+	}
+
+
+		 functions
+		 {
+			 Deluge
+			 {
+				 void confirm_appointment(int appointmentId)
+                 {
+                 	appt = appointment[ID == appointmentId];
+                 	if(appt.count() == 0)
+                 	{
+                 		return;
+                 	}
+                 	if(appt.consultation_request == null)
+                 	{
+                 		return;
+                 	}
+                 	requestRec = consultation_request[ID == appt.consultation_request.ID];
+                 	if(requestRec.count() == 0)
+                 	{
+                 		return;
+                 	}
+                 	studentRec = student_registration[ID == requestRec.student.ID];
+                 	facultyRec = faculty_master[ID == requestRec.faculty.ID];
+                 	requestRec.status="Confirmed";
+                 	appt.status="Scheduled";
+                 	appt.confirmation_sent=true;
+                 	dateText = appt.appointment_date.toString("dd-MMM-yyyy");
+                 	startText = appt.start_time.toString("HH:mm");
+                 	endText = appt.end_time.toString("HH:mm");
+                 	modeText = ifNull(appt.mode,"Not specified");
+                 	locationText = ifNull(appt.location_meeting_link,"Not specified");
+                 	if(studentRec.count() > 0 && studentRec.email != null)
+                 	{
+                 		sendmail
+                 		[
+                 			from :zoho.adminuserid
+                 			to :studentRec.email
+                 			subject :"MentorConnect - Consultation Confirmed"
+                 			message :"Hello " + studentRec.student_name.first_name + ",<br><br>" + "Your faculty consultation has been confirmed.<br><br>" + "<b>Date:</b> " + dateText + "<br>" + "<b>Time:</b> " + startText + " - " + endText + "<br>" + "<b>Mode:</b> " + modeText + "<br>" + "<b>Location / Meeting Link:</b> " + locationText + "<br><br>MentorConnect"
+                 		]
+                 	}
+                 	if(facultyRec.count() > 0 && facultyRec.email != null)
+                 	{
+                 		sendmail
+                 		[
+                 			from :zoho.adminuserid
+                 			to :facultyRec.email
+                 			subject :"MentorConnect - Consultation Confirmed"
+                 			message :"A consultation appointment has been confirmed.<br><br>" + "<b>Date:</b> " + dateText + "<br>" + "<b>Time:</b> " + startText + " - " + endText + "<br>" + "<b>Mode:</b> " + modeText + "<br>" + "<b>Location / Meeting Link:</b> " + locationText + "<br><br>MentorConnect"
+                 		]
+                 	}
+                 }
+				 map get_faculty_slot(int facultyId, date reqDate, time reqTime)
+                 {
+                 	result = Map();
+                 	result.put("available",false);
+                 	result.put("message","");
+                 	result.put("mode","");
+                 	result.put("location","");
+                 	result.put("max_appointments",0);
+                 	result.put("slot_start",null);
+                 	result.put("slot_end",null);
+                 	if(facultyId == null)
+                 	{
+                 		result.put("message","Faculty is required.");
+                 		return result;
+                 	}
+                 	if(reqDate == null)
+                 	{
+                 		result.put("message","Request date is required.");
+                 		return result;
+                 	}
+                 	if(reqTime == null)
+                 	{
+                 		result.put("message","Request time is required.");
+                 		return result;
+                 	}
+                 	dayNumber = reqDate.getDayOfWeek();
+                 	dayName = "";
+                 	if(dayNumber == 1)
+                 	{
+                 		dayName = "Sunday";
+                 	}
+                 	else if(dayNumber == 2)
+                 	{
+                 		dayName = "Monday";
+                 	}
+                 	else if(dayNumber == 3)
+                 	{
+                 		dayName = "Tuesday";
+                 	}
+                 	else if(dayNumber == 4)
+                 	{
+                 		dayName = "Wednesday";
+                 	}
+                 	else if(dayNumber == 5)
+                 	{
+                 		dayName = "Thursday";
+                 	}
+                 	else if(dayNumber == 6)
+                 	{
+                 		dayName = "Friday";
+                 	}
+                 	else if(dayNumber == 7)
+                 	{
+                 		dayName = "Saturday";
+                 	}
+                 	slots = faculty_availability[faculty == facultyId && day == dayName && status == "Available"];
+                 	for each  slot in slots
+                 	{
+                 		if(reqTime >= slot.start_time && reqTime < slot.end_time)
+                 		{
+                 			result.put("available",true);
+                 			result.put("message","Faculty is available.");
+                 			result.put("mode",ifNull(slot.mode,""));
+                 			result.put("location",ifNull(slot.location_meeting_link,""));
+                 			result.put("max_appointments",ifNull(slot.max_appointments,0));
+                 			// IMPORTANT: Keep these as TIME values
+                 			result.put("slot_start",slot.start_time);
+                 			result.put("slot_end",slot.end_time);
+                 			break;
+                 		}
+                 	}
+                 	if(result.get("available") != true)
+                 	{
+                 		result.put("message","No available faculty slot found for the selected date and time.");
+                 	}
+                 	return result;
+                 }
+				 int get_mentor_from_department(int deptId)
+                 {
+                 	dept = department_master[ID == deptId];
+                 	if(dept.count() == 0)
+                 	{
+                 		return 0;
+                 	}
+                 	coordinator = dept.department_coordinator;
+                 	if(coordinator == null)
+                 	{
+                 		return 0;
+                 	}
+                 	firstName = coordinator.first_name;
+                 	lastName = coordinator.last_name;
+                 	facultyRec = faculty_master[faculty_name.first_name == firstName && faculty_name.last_name == lastName && status == "Active"];
+                 	if(facultyRec.count() > 0)
+                 	{
+                 		return facultyRec.ID;
+                 	}
+                 	return 0;
+                 }
+				 bool is_active_faculty(int facultyId)
+                 {
+                 	facultyRec = faculty_master[ID == facultyId && status == "Active"];
+                 	if(facultyRec.count() > 0)
+                 	{
+                 		return true;
+                 	}
+                 	return false;
+                 }
+				 bool is_active_student(int studentId)
+                 {
+                 	studentRec = student_registration[ID == studentId && status == "Active"];
+                 	if(studentRec.count() > 0)
+                 	{
+                 		return true;
+                 	}
+                 	return false;
+                 }
+				 void send_tomorrow_reminders()
+                 {
+                 	tomorrow = zoho.currentdate.addDay(1);
+                 	appointments = appointment[appointment_date == tomorrow && status == "Scheduled"];
+                 	for each  appt in appointments
+                 	{
+                 		if(appt.consultation_request == null)
+                 		{
+                 			continue;
+                 		}
+                 		requestRec = consultation_request[ID == appt.consultation_request.ID];
+                 		if(requestRec.count() == 0)
+                 		{
+                 			continue;
+                 		}
+                 		studentRec = student_registration[ID == requestRec.student.ID];
+                 		facultyRec = faculty_master[ID == requestRec.faculty.ID];
+                 		dateText = appt.appointment_date.toString("dd-MMM-yyyy");
+                 		timeText = appt.start_time.toString("HH:mm") + " - " + appt.end_time.toString("HH:mm");
+                 		modeText = ifNull(appt.mode,"Not specified");
+                 		locationText = ifNull(appt.location_meeting_link,"Not specified");
+                 		if(studentRec.count() > 0 && studentRec.email != null)
+                 		{
+                 			sendmail
+                 			[
+                 				from :zoho.adminuserid
+                 				to :studentRec.email
+                 				subject :"MentorConnect - Consultation Reminder"
+                 				message :"Hello " + studentRec.student_name.first_name + ",<br><br>" + "This is a reminder that you have a faculty consultation tomorrow.<br><br>" + "<b>Date:</b> " + dateText + "<br>" + "<b>Time:</b> " + timeText + "<br>" + "<b>Mode:</b> " + modeText + "<br>" + "<b>Location / Meeting Link:</b> " + locationText + "<br><br>Please attend on time.<br><br>" + "MentorConnect"
+                 			]
+                 		}
+                 		if(facultyRec.count() > 0 && facultyRec.email != null)
+                 		{
+                 			sendmail
+                 			[
+                 				from :zoho.adminuserid
+                 				to :facultyRec.email
+                 				subject :"MentorConnect - Faculty Reminder"
+                 				message :"Hello " + facultyRec.faculty_name.first_name + ",<br><br>" + "You have a consultation scheduled for tomorrow.<br><br>" + "<b>Date:</b> " + dateText + "<br>" + "<b>Time:</b> " + timeText + "<br>" + "<b>Mode:</b> " + modeText + "<br><br>MentorConnect"
+                 			]
+                 		}
+                 		appt.status="Reminder Sent";
+                 	}
+                 }
+				 void sync_request_from_appointment(int appointmentId, string appointmentStatus)
+                 {
+                 	appt = appointment[ID == appointmentId];
+                 	if(appt.count() == 0)
+                 	{
+                 		return;
+                 	}
+                 	if(appt.consultation_request == null)
+                 	{
+                 		return;
+                 	}
+                 	requestRec = consultation_request[ID == appt.consultation_request.ID];
+                 	if(requestRec.count() == 0)
+                 	{
+                 		return;
+                 	}
+                 	newStatus = "";
+                 	if(appointmentStatus == "Completed")
+                 	{
+                 		newStatus = "Completed";
+                 	}
+                 	else if(appointmentStatus == "Cancelled")
+                 	{
+                 		newStatus = "Cancelled";
+                 	}
+                 	else if(appointmentStatus == "Rescheduled")
+                 	{
+                 		newStatus = "Reschedule Requested";
+                 	}
+                 	if(newStatus != "")
+                 	{
+                 		requestRec.status=newStatus;
+                 	}
+                 }
+				 map validate_appointment_slot(int facultyId, date apptDate, time apptTime)
+                 {
+                 	result = Map();
+                 	result.put("allowed",false);
+                 	result.put("message","");
+                 	if(facultyId == null)
+                 	{
+                 		result.put("message","Faculty is required.");
+                 		return result;
+                 	}
+                 	if(apptDate == null)
+                 	{
+                 		result.put("message","Appointment date is required.");
+                 		return result;
+                 	}
+                 	if(apptTime == null)
+                 	{
+                 		result.put("message","Appointment time is required.");
+                 		return result;
+                 	}
+                 	slotInfo = thisapp.get_faculty_slot(facultyId,apptDate,apptTime);
+                 	if(slotInfo.get("available") != true)
+                 	{
+                 		result.put("message","Faculty is not available at the selected date and time.");
+                 		return result;
+                 	}
+                 	slotStart = slotInfo.get("slot_start");
+                 	slotEnd = slotInfo.get("slot_end");
+                 	appointments = appointment[faculty == facultyId && appointment_date == apptDate];
+                 	conflictFound = false;
+                 	activeCount = 0;
+                 	for each  appt in appointments
+                 	{
+                 		if(appt.status != "Cancelled" && appt.status != "Rescheduled")
+                 		{
+                 			// Compare actual TIME values
+                 			if(apptTime >= appt.start_time && apptTime < appt.end_time)
+                 			{
+                 				conflictFound = true;
+                 			}
+                 			// Count appointments inside this availability slot
+                 			if(appt.start_time >= slotStart && appt.start_time < slotEnd)
+                 			{
+                 				activeCount = activeCount + 1;
+                 			}
+                 		}
+                 	}
+                 	if(conflictFound)
+                 	{
+                 		result.put("message","The selected faculty already has an appointment at this time.");
+                 		return result;
+                 	}
+                 	maxAppointments = slotInfo.get("max_appointments");
+                 	if(maxAppointments > 0 && activeCount >= maxAppointments)
+                 	{
+                 		result.put("message","The faculty availability slot has reached its maximum appointment capacity.");
+                 		return result;
+                 	}
+                 	result.put("allowed",true);
+                 	result.put("message","Appointment slot is available.");
+                 	return result;
+                 }
+			 }
+		 }
+
+
+		workflow
+		{
+		form
+		{
+			Auto_Assign_Mentor_on_Dep as "Auto Assign Mentor on Department Selection"
+			{
+				type =  form
+				form = student_registration
+
+				record event = on add
+
+				on user input of department
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.department != null)
+										{
+											mentorId = thisapp.get_mentor_from_department(input.department.ID);
+											if(mentorId > 0)
+											{
+												input.mentor = mentorId;
+											}
+											else
+											{
+												alert "No active faculty mentor is mapped to this department.";
+											}
+										}
+						)
+					}
+				}
+
+			}
+			Validate_Consultation_Req as "Validate Consultation Request Booking"
+			{
+				type =  form
+				form = consultation_request
+
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.student == null)
+										{
+											alert "Please select a student.";
+											cancel submit;
+										}
+										if(input.faculty == null)
+										{
+											alert "Please select a faculty member.";
+											cancel submit;
+										}
+										if(input.preferred_date == null)
+										{
+											alert "Please select a preferred consultation date.";
+											cancel submit;
+										}
+										if(input.preferred_time_slot == null)
+										{
+											alert "Please select a preferred consultation time.";
+											cancel submit;
+										}
+										if(input.preferred_date < zoho.currentdate)
+										{
+											alert "Consultation date cannot be in the past.";
+											cancel submit;
+										}
+										studentActive = thisapp.is_active_student(input.student.ID);
+										if(studentActive != true)
+										{
+											alert "Only active students can create consultation requests.";
+											cancel submit;
+										}
+										facultyActive = thisapp.is_active_faculty(input.faculty.ID);
+										if(facultyActive != true)
+										{
+											alert "The selected faculty member is not active.";
+											cancel submit;
+										}
+										slotResult = thisapp.validate_appointment_slot(input.faculty.ID,input.preferred_date,input.preferred_time_slot);
+										if(slotResult.get("allowed") != true)
+										{
+											alert slotResult.get("message");
+											cancel submit;
+										}
+										input.status = "Submitted";
+						)
+					}
+				}
+
+			}
+			Send_Appointment_Confirma as "Send Appointment Confirmation"
+			{
+				type =  form
+				form = appointment
+
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											thisapp.confirm_appointment(input.ID);
+						)
+					}
+				}
+
+			}
+			Synchronize_Consultation_ as "Synchronize Consultation Request Status"
+			{
+				type =  form
+				form = appointment
+
+				record event = on edit
+
+				on update of status
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											thisapp.sync_request_from_appointment(input.ID,input.status);
+						)
+					}
+				}
+
+			}
+			Notify_Students_Faculty_Available as "Notify Students on Faculty Availability"
+			{
+				type =  form
+				form = faculty_availability
+
+				record event = on add or edit
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Fetch the faculty record from the input availability record
+										facultyRecord = faculty_master[ID == input.faculty];
+										// Check if faculty record exists and is active
+										if(facultyRecord != null && facultyRecord.status == "Active")
+										{
+											// Get faculty name components
+											facultyFirstName = facultyRecord.faculty_name.first_name;
+											facultyLastName = facultyRecord.faculty_name.last_name;
+											facultyName = facultyFirstName + " " + facultyLastName;
+											// Get faculty email
+											facultyEmail = facultyRecord.email;
+											// Fetch pending consultation requests that match this faculty
+											// Status options: Submitted, Reschedule Requested, Completed, Confirmed, Cancelled
+											pendingRequests = consultation_request[faculty == input.faculty && status == "Submitted" || status == "Reschedule Requested"];
+											// Check if there are any pending requests
+											if(pendingRequests.count() > 0)
+											{
+												// Iterate through each pending request to send notifications
+												for each  request in pendingRequests
+												{
+													// Get student record from the request
+													studentRecord = student_registration[ID == request.student];
+													if(studentRecord != null && studentRecord.status == "Active")
+													{
+														// Get student name components
+														studentFirstName = studentRecord.student_name.first_name;
+														studentLastName = studentRecord.student_name.last_name;
+														studentName = studentFirstName + " " + studentLastName;
+														// Get student email
+														studentEmail = studentRecord.email;
+														// Prepare email content
+														emailSubject = "Faculty Availability Update: " + facultyName + " is now available";
+														emailMessage = "<p>Dear " + studentName + ",</p>";
+														emailMessage = emailMessage + "<p>We are pleased to inform you that your mentor, " + facultyName + ", is now available for consultation.</p>";
+														emailMessage = emailMessage + "<p>Your consultation request (ID: " + request.request_id + ") regarding " + request.concern_category + " has been noted.</p>";
+														emailMessage = emailMessage + "<p>Please log in to the portal to schedule an appointment at your convenience.</p>";
+														emailMessage = emailMessage + "<p>Best regards,<br/>Mentor Connect Team</p>";
+														// Send email notification to student
+														sendmail
+														[
+															from :zoho.adminuserid
+															to :studentEmail
+															subject :emailSubject
+															message :emailMessage
+															content type :HTML
+														]
+													}
+												}
+											}
+											else
+											{
+												// No pending requests for this faculty
+												info "No pending consultation requests found for faculty: " + facultyName;
+											}
+										}
+										else
+										{
+											// Faculty record not found or inactive
+											info "Faculty record not found or inactive";
+										}
+						)
+					}
+				}
+
+			}
+			Notify_Student_Available_Slot as "Notify Student on Available Slot"
+			{
+				type =  form
+				form = consultation_request
+
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Fetch the student record using the multi-select lookup ID
+										studentList = student_registration[ID == input.student];
+										if(studentList.count() > 0)
+										{
+											// Access the first (and typically only) student record
+											studentRecord = studentList;
+											// Get student email from the record
+											studentEmail = studentRecord.email;
+											// Get student name from composite field
+											studentName = studentRecord.student_name.first_name;
+											// Get faculty name from multi-select lookup
+											facultyList = faculty_master[ID == input.faculty];
+											facultyName = "";
+											if(facultyList.count() > 0)
+											{
+												facultyRecord = facultyList;
+												facultyName = facultyRecord.faculty_name.first_name;
+											}
+											// Get consultation details
+											concernCategory = input.concern_category;
+											preferredDate = input.preferred_date;
+											preferredTime = input.preferred_time_slot;
+											concernDesc = input.concern_description;
+											// Construct email subject and message
+											emailSubject = "Consultation Request Submitted - " + concernCategory;
+											emailMessage = "<p>Dear " + studentName + ",</p>";
+											emailMessage = emailMessage + "<p>Your consultation request has been successfully submitted.</p>";
+											emailMessage = emailMessage + "<p><strong>Details:</strong></p>";
+											emailMessage = emailMessage + "<ul>";
+											emailMessage = emailMessage + "<li>Category: " + concernCategory + "</li>";
+											if(preferredDate != null)
+											{
+												emailMessage = emailMessage + "<li>Preferred Date: " + preferredDate + "</li>";
+											}
+											if(preferredTime != null)
+											{
+												// Convert time to string to avoid arithmetic operations on TIME values
+												timeStr = preferredTime.toString();
+												emailMessage = emailMessage + "<li>Preferred Time: " + timeStr + "</li>";
+											}
+											if(facultyName != "")
+											{
+												emailMessage = emailMessage + "<li>Requested Faculty: " + facultyName + "</li>";
+											}
+											emailMessage = emailMessage + "</ul>";
+											emailMessage = emailMessage + "<p>If a faculty slot is available, you will receive a confirmation shortly.</p>";
+											emailMessage = emailMessage + "<p>Best regards,<br>Faculty Consultation System</p>";
+											// Send email notification
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :studentEmail
+												subject :emailSubject
+												message :emailMessage
+												content type :HTML
+											]
+										}
+										else
+										{
+											info "Student record not found for the provided student ID";
+										}
+						)
+					}
+				}
+
+			}
+			Notify_Faculty_New_Appointment as "Notify Faculty of New Appointment"
+			{
+				type =  form
+				form = appointment
+
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Fetch faculty records based on the multi-select lookup IDs
+										facultyList = faculty_master[ID in input.faculty.ID.getall()];
+										// Prepare the email message content
+										emailBody = "<p>Dear Faculty,</p>";
+										emailBody = emailBody + "<p>A new appointment has been scheduled with the following details:</p>";
+										emailBody = emailBody + "<ul>";
+										// Loop through each faculty member to construct the message
+										for each  faculty in facultyList
+										{
+											facultyName = input.faculty.faculty_name.first_name + " " + input.faculty.faculty_name.last_name;
+											emailBody = emailBody + "<li><strong>Faculty:</strong> " + facultyName + "</li>";
+										}
+										// Add student details
+										studentName = input.student.student_name.first_name + " " + input.student.student_name.last_name;
+										emailBody = emailBody + "<li><strong>Student Name:</strong> " + studentName + "</li>";
+										emailBody = emailBody + "<li><strong>Student Email:</strong> " + input.student.email + "</li>";
+										emailBody = emailBody + "<li><strong>Student Mobile:</strong> " + input.student.mobile_number + "</li>";
+										// Add appointment details
+										emailBody = emailBody + "<li><strong>Appointment Date:</strong> " + input.appointment_date + "</li>";
+										emailBody = emailBody + "<li><strong>Start Time:</strong> " + input.start_time.toString() + "</li>";
+										emailBody = emailBody + "<li><strong>End Time:</strong> " + input.end_time.toString() + "</li>";
+										emailBody = emailBody + "<li><strong>Mode:</strong> " + input.mode + "</li>";
+										if(input.location_meeting_link != null && input.location_meeting_link != "")
+										{
+											emailBody = emailBody + "<li><strong>Meeting Link:</strong> <a href='" + input.location_meeting_link + "'>Click Here</a></li>";
+										}
+										else
+										{
+											emailBody = emailBody + "<li><strong>Location:</strong> Offline (No link provided)</li>";
+										}
+										emailBody = emailBody + "</ul>";
+										emailBody = emailBody + "<p>Please prepare accordingly.</p>";
+										// Send email to all faculty members
+										for each  faculty in facultyList
+										{
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :input.faculty.email
+												subject :"New Appointment Scheduled - " + studentName
+												message :emailBody
+												content type :HTML
+											]
+										}
+						)
+					}
+				}
+
+			}
+		}
+
+		schedule
+		{
+			Daily_Consultation_Remind as "Daily Consultation Reminder"
+			{
+				type =  schedule
+					status = inactive
+				start = "2026-10-26 09:30:00"
+				frequency = daily
+				time zone = "Asia/Kolkata"
+				on start
+				{
+					actions 
+					{
+					on load
+					(
+						thisapp.send_tomorrow_reminders();
+					)
+					}
+				}
+			}
+		}
+
+
+		blueprint
+		{
+    			appointment_scheduling_flow as "Appointment Scheduling Flow"
+    			{
+        			type = Blueprint
+        			form = appointment
+        			start
+        			{
+            			start stage = "Appointment Draft"
+        			}
+        			stages
+        			{
+           			"Appointment Draft"
+           			{
+           			}
+           			"Appointment Scheduled"
+           			{
+           			}
+           			"Appointment Cancelled"
+           			{
+           			}
+           			"Appointment Pending Confirmation"
+           			{
+           			}
+           			"Appointment Confirmed"
+           			{
+           			}
+           			"Appointment Rescheduled"
+           			{
+           			}
+           			"Appointment In Progress"
+           			{
+           			}
+           			"Appointment Completed"
+           			{
+           			}
+           			"Appointment On Hold"
+           			{
+           			}
+           			"Appointment Closed"
+           			{
+           			}
+           			"Appointment Follow-up Required"
+           			{
+           			}
+        			}
+        			transitions
+        			{
+    				cancel_appointment as "Cancel Appointment"
+    				{
+         				type = normal
+         				from stage = "Appointment Scheduled"
+         				to stage = "Appointment Cancelled"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				close_appointment as "Close Appointment"
+    				{
+         				type = normal
+         				from stage = "Appointment Completed"
+         				to stage = "Appointment Closed"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				confirm_appointment as "Confirm Appointment"
+    				{
+         				type = normal
+         				from stage = "Appointment Pending Confirmation"
+         				to stage = "Appointment Confirmed"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				confirm_new_time as "Confirm New Time"
+    				{
+         				type = normal
+         				from stage = "Appointment Rescheduled"
+         				to stage = "Appointment Scheduled"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				create_new_appointment as "Create New Appointment"
+    				{
+         				type = normal
+         				from stage = "Appointment Follow-up Required"
+         				to stage = "Appointment Scheduled"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				decline_appointment as "Decline Appointment"
+    				{
+         				type = normal
+         				from stage = "Appointment Pending Confirmation"
+         				to stage = "Appointment Cancelled"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				discard_request as "Discard Request"
+    				{
+         				type = normal
+         				from stage = "Appointment Draft"
+         				to stage = "Appointment Cancelled"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				end_appointment as "End Appointment"
+    				{
+         				type = normal
+         				from stage = "Appointment In Progress"
+         				to stage = "Appointment Completed"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				pause_appointment as "Pause Appointment"
+    				{
+         				type = normal
+         				from stage = "Appointment In Progress"
+         				to stage = "Appointment On Hold"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				request_reschedule as "Request Reschedule"
+    				{
+         				type = normal
+         				from stage = "Appointment Pending Confirmation"
+         				to stage = "Appointment Rescheduled"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				reschedule_appointment as "Reschedule Appointment"
+    				{
+         				type = normal
+         				from stage = "Appointment Confirmed"
+         				to stage = "Appointment Rescheduled"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				resume_appointment as "Resume Appointment"
+    				{
+         				type = normal
+         				from stage = "Appointment On Hold"
+         				to stage = "Appointment In Progress"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				schedule_followup as "Schedule Follow-up"
+    				{
+         				type = normal
+         				from stage = "Appointment Completed"
+         				to stage = "Appointment Follow-up Required"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				send_confirmation as "Send Confirmation Request"
+    				{
+         				type = normal
+         				from stage = "Appointment Scheduled"
+         				to stage = "Appointment Pending Confirmation"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				start_appointment as "Start Appointment"
+    				{
+         				type = normal
+         				from stage = "Appointment Confirmed"
+         				to stage = "Appointment In Progress"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				submit_appointment as "Submit Appointment Request"
+    				{
+         				type = normal
+         				from stage = "Appointment Draft"
+         				to stage = "Appointment Scheduled"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+        			}
+    			}
+		}
+
+
+	}
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"Developer"
+			{
+				name = "Developer"
+				type = Developer
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Developer Profile\n"
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Student"
+			{
+				name = "Student"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Submit consultation requests regarding academic or career concerns \n"
+				ModulePermissions
+				{
+					appointment
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							appointment_by_status={"View","Edit"}
+							appointment_Report={"View","Edit"}
+						}
+					}
+					consultation_request
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+					}
+				}
+			}
+			"Parent"
+			{
+				name = "Parent"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "View student consultation history and appointment schedules \n"
+				ModulePermissions
+				{
+					appointment
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							appointment_by_status={"View"}
+							appointment_Report={"View"}
+						}
+					}
+					consultation_record_feedback
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							consultation_record_feedback_Report={"View"}
+							consultation_record_feedbac_by_outcome_status={"View"}
+						}
+					}
+				}
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users."
+				}
+			}
+	}
+
+	customize
+	{
+		icon
+		{
+			text = "MEN"
+			background color = "theme"
+			foreground color = "#ffffff"
+		}
+	}
+
+	web
+	{
+		forms
+		{
+			form appointment
+			{
+				label placement = left
+			}
+			form consultation_record_feedback
+			{
+				label placement = left
+			}
+			form consultation_request
+			{
+				label placement = left
+			}
+			form department_master
+			{
+				label placement = left
+			}
+			form faculty_availability
+			{
+				label placement = left
+			}
+			form faculty_master
+			{
+				label placement = left
+			}
+			form student_registration
+			{
+				label placement = left
+			}
+		}
+		reports
+		{
+			report appointment_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								appointment_id as "Appointment ID"
+								consultation_request as "Consultation Request"
+								student as "Student"
+								faculty as "Faculty"
+								appointment_date as "Appointment Date"
+								start_time as "Start Time"
+								end_time as "End Time"
+								mode as "Mode"
+								location_meeting_link as "Location / Meeting Link"
+								status as "Status"
+								confirmation_sent as "Confirmation Sent"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								appointment_id as "Appointment ID"
+								consultation_request as "Consultation Request"
+								student as "Student"
+								faculty as "Faculty"
+								appointment_date as "Appointment Date"
+								start_time as "Start Time"
+								end_time as "End Time"
+								mode as "Mode"
+								location_meeting_link as "Location / Meeting Link"
+								status as "Status"
+								confirmation_sent as "Confirmation Sent"
+							)
+						)
+						datablock2
+						(
+		     				title = "Consultation Request"
+		     				related field = consultation_request
+							fields
+							(
+								request_id as "Request ID"
+								student as "Student"
+								faculty as "Faculty"
+								preferred_date as "Preferred Date"
+								preferred_time_slot as "Preferred Time Slot"
+								consultation_type as "Consultation Type"
+								concern_category as "Concern Category"
+								concern_description as "Concern Description"
+								priority as "Priority"
+								status as "Status"
+								faculty_remarks as "Faculty Remarks"
+							)
+						)
+						datablock3
+						(
+		     				title = "Student"
+		     				related field = student
+							fields
+							(
+								student_id as "Student ID"
+								student_name as "Student Name"
+								register_number as "Register Number"
+								department as "Department"
+								year_semester as "Year / Semester"
+								email as "Email"
+								mobile_number as "Mobile Number"
+								mentor as "Mentor"
+								status as "Status"
+							)
+						)
+						datablock4
+						(
+		     				title = "Faculty"
+		     				related field = faculty
+							fields
+							(
+								faculty_id as "Faculty ID"
+								faculty_name as "Faculty Name"
+								department as "Department"
+								designation as "Designation"
+								specialization as "Specialization"
+								email as "Email"
+								phone_number as "Phone Number"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report appointment_by_status
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = 1
+							fields
+							(
+								appointment_id as "Appointment ID"
+								consultation_request as "Consultation Request"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								appointment_id as "Appointment ID"
+								consultation_request as "Consultation Request"
+								student as "Student"
+								faculty as "Faculty"
+								appointment_date as "Appointment Date"
+								start_time as "Start Time"
+								end_time as "End Time"
+								mode as "Mode"
+								location_meeting_link as "Location / Meeting Link"
+								status as "Status"
+								confirmation_sent as "Confirmation Sent"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report consultation_request_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								request_id as "Request ID"
+								student as "Student"
+								faculty as "Faculty"
+								preferred_date as "Preferred Date"
+								preferred_time_slot as "Preferred Time Slot"
+								consultation_type as "Consultation Type"
+								concern_category as "Concern Category"
+								concern_description as "Concern Description"
+								priority as "Priority"
+								status as "Status"
+								faculty_remarks as "Faculty Remarks"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								request_id as "Request ID"
+								student as "Student"
+								faculty as "Faculty"
+								preferred_date as "Preferred Date"
+								preferred_time_slot as "Preferred Time Slot"
+								consultation_type as "Consultation Type"
+								concern_category as "Concern Category"
+								concern_description as "Concern Description"
+								priority as "Priority"
+								status as "Status"
+								faculty_remarks as "Faculty Remarks"
+							)
+						)
+						datablock2
+						(
+		     				title = "Student"
+		     				related field = student
+							fields
+							(
+								student_id as "Student ID"
+								student_name as "Student Name"
+								register_number as "Register Number"
+								department as "Department"
+								year_semester as "Year / Semester"
+								email as "Email"
+								mobile_number as "Mobile Number"
+								mentor as "Mentor"
+								status as "Status"
+							)
+						)
+						datablock3
+						(
+		     				title = "Faculty"
+		     				related field = faculty
+							fields
+							(
+								faculty_id as "Faculty ID"
+								faculty_name as "Faculty Name"
+								department as "Department"
+								designation as "Designation"
+								specialization as "Specialization"
+								email as "Email"
+								phone_number as "Phone Number"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report consultation_request_by_consultation_type
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = 1
+							fields
+							(
+								request_id as "Request ID"
+								student as "Student"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								request_id as "Request ID"
+								student as "Student"
+								faculty as "Faculty"
+								preferred_date as "Preferred Date"
+								preferred_time_slot as "Preferred Time Slot"
+								consultation_type as "Consultation Type"
+								concern_category as "Concern Category"
+								concern_description as "Concern Description"
+								priority as "Priority"
+								status as "Status"
+								faculty_remarks as "Faculty Remarks"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report consultation_record_feedback_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								appointment as "Appointment"
+								student as "Student"
+								faculty as "Faculty"
+								consultation_date as "Consultation Date"
+								discussion_summary as "Discussion Summary"
+								advice_action_items as "Advice / Action Items"
+								outcome_status as "Outcome Status"
+								follow_up_required as "Follow-up Required"
+								follow_up_date as "Follow-up Date"
+								student_rating as "Student Rating"
+								student_feedback as "Student Feedback"
+								closure_status as "Closure Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								appointment as "Appointment"
+								student as "Student"
+								faculty as "Faculty"
+								consultation_date as "Consultation Date"
+								discussion_summary as "Discussion Summary"
+								advice_action_items as "Advice / Action Items"
+								outcome_status as "Outcome Status"
+								follow_up_required as "Follow-up Required"
+								follow_up_date as "Follow-up Date"
+								student_rating as "Student Rating"
+								student_feedback as "Student Feedback"
+								closure_status as "Closure Status"
+							)
+						)
+						datablock2
+						(
+		     				title = "Faculty"
+		     				related field = faculty
+							fields
+							(
+								faculty_id as "Faculty ID"
+								faculty_name as "Faculty Name"
+								department as "Department"
+								designation as "Designation"
+								specialization as "Specialization"
+								email as "Email"
+								phone_number as "Phone Number"
+								status as "Status"
+							)
+						)
+						datablock3
+						(
+		     				title = "Appointment"
+		     				related field = appointment
+							fields
+							(
+								appointment_id as "Appointment ID"
+								consultation_request as "Consultation Request"
+								student as "Student"
+								faculty as "Faculty"
+								appointment_date as "Appointment Date"
+								start_time as "Start Time"
+								end_time as "End Time"
+								mode as "Mode"
+								location_meeting_link as "Location / Meeting Link"
+								status as "Status"
+								confirmation_sent as "Confirmation Sent"
+							)
+						)
+						datablock4
+						(
+		     				title = "Student"
+		     				related field = student
+							fields
+							(
+								student_id as "Student ID"
+								student_name as "Student Name"
+								register_number as "Register Number"
+								department as "Department"
+								year_semester as "Year / Semester"
+								email as "Email"
+								mobile_number as "Mobile Number"
+								mentor as "Mentor"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report consultation_record_feedbac_by_outcome_status
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = 1
+							fields
+							(
+								appointment as "Appointment"
+								student as "Student"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								appointment as "Appointment"
+								student as "Student"
+								faculty as "Faculty"
+								consultation_date as "Consultation Date"
+								discussion_summary as "Discussion Summary"
+								advice_action_items as "Advice / Action Items"
+								outcome_status as "Outcome Status"
+								follow_up_required as "Follow-up Required"
+								follow_up_date as "Follow-up Date"
+								student_rating as "Student Rating"
+								student_feedback as "Student Feedback"
+								closure_status as "Closure Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report department_master_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								department_id as "Department ID"
+								department_name as "Department Name"
+								department_code as "Department Code"
+								office_email as "Office Email"
+								department_coordinator as "Department Coordinator"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								department_id as "Department ID"
+								department_name as "Department Name"
+								department_code as "Department Code"
+								office_email as "Office Email"
+								department_coordinator as "Department Coordinator"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report faculty_master_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								faculty_id as "Faculty ID"
+								faculty_name as "Faculty Name"
+								department as "Department"
+								designation as "Designation"
+								specialization as "Specialization"
+								email as "Email"
+								phone_number as "Phone Number"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								faculty_id as "Faculty ID"
+								faculty_name as "Faculty Name"
+								department as "Department"
+								designation as "Designation"
+								specialization as "Specialization"
+								email as "Email"
+								phone_number as "Phone Number"
+								status as "Status"
+							)
+						)
+						datablock2
+						(
+		     				title = "Department"
+		     				related field = department
+							fields
+							(
+								department_id as "Department ID"
+								department_name as "Department Name"
+								department_code as "Department Code"
+								office_email as "Office Email"
+								department_coordinator as "Department Coordinator"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report faculty_availability_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								faculty as "Faculty"
+								day as "Day"
+								start_time as "Start Time"
+								end_time as "End Time"
+								max_appointments as "Max Appointments"
+								mode as "Mode"
+								location_meeting_link as "Location / Meeting Link"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								faculty as "Faculty"
+								day as "Day"
+								start_time as "Start Time"
+								end_time as "End Time"
+								max_appointments as "Max Appointments"
+								mode as "Mode"
+								location_meeting_link as "Location / Meeting Link"
+								status as "Status"
+							)
+						)
+						datablock2
+						(
+		     				title = "Faculty"
+		     				related field = faculty
+							fields
+							(
+								faculty_id as "Faculty ID"
+								faculty_name as "Faculty Name"
+								department as "Department"
+								designation as "Designation"
+								specialization as "Specialization"
+								email as "Email"
+								phone_number as "Phone Number"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report faculty_availability_by_day
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = 1
+							fields
+							(
+								faculty as "Faculty"
+								start_time as "Start Time"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								faculty as "Faculty"
+								day as "Day"
+								start_time as "Start Time"
+								end_time as "End Time"
+								max_appointments as "Max Appointments"
+								mode as "Mode"
+								location_meeting_link as "Location / Meeting Link"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report student_registration_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								student_id as "Student ID"
+								student_name as "Student Name"
+								register_number as "Register Number"
+								department as "Department"
+								year_semester as "Year / Semester"
+								email as "Email"
+								mobile_number as "Mobile Number"
+								mentor as "Mentor"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								student_id as "Student ID"
+								student_name as "Student Name"
+								register_number as "Register Number"
+								department as "Department"
+								year_semester as "Year / Semester"
+								email as "Email"
+								mobile_number as "Mobile Number"
+								mentor as "Mentor"
+								status as "Status"
+							)
+						)
+						datablock2
+						(
+		     				title = "Mentor"
+		     				related field = mentor
+							fields
+							(
+								faculty_id as "Faculty ID"
+								faculty_name as "Faculty Name"
+								department as "Department"
+								designation as "Designation"
+								specialization as "Specialization"
+								email as "Email"
+								phone_number as "Phone Number"
+								status as "Status"
+							)
+						)
+						datablock3
+						(
+		     				title = "Department"
+		     				related field = department
+							fields
+							(
+								department_id as "Department ID"
+								department_name as "Department Name"
+								department_code as "Department Code"
+								office_email as "Office Email"
+								department_coordinator as "Department Coordinator"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report Student_Registration_Report1
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								student_id as "Student ID"
+								student_name as "Student Name"
+								register_number as "Register Number"
+								department as "Department"
+								year_semester as "Year / Semester"
+								email as "Email"
+								mobile_number as "Mobile Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								student_id as "Student ID"
+								student_name as "Student Name"
+								register_number as "Register Number"
+								department as "Department"
+								year_semester as "Year / Semester"
+								email as "Email"
+								mobile_number as "Mobile Number"
+								mentor as "Mentor"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Faculty_Master_Report1
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								faculty_id as "Faculty ID"
+								faculty_name as "Faculty Name"
+								department as "Department"
+								designation as "Designation"
+								specialization as "Specialization"
+								email as "Email"
+								phone_number as "Phone Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								faculty_id as "Faculty ID"
+								faculty_name as "Faculty Name"
+								department as "Department"
+								designation as "Designation"
+								specialization as "Specialization"
+								email as "Email"
+								phone_number as "Phone Number"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Faculty_Availablity_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								faculty as "Faculty"
+								day as "Day"
+								start_time as "Start Time"
+								end_time as "End Time"
+								max_appointments as "Max Appointments"
+								mode as "Mode"
+								location_meeting_link as "Location / Meeting Link"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								faculty as "Faculty"
+								day as "Day"
+								start_time as "Start Time"
+								end_time as "End Time"
+								max_appointments as "Max Appointments"
+								mode as "Mode"
+								location_meeting_link as "Location / Meeting Link"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Consultation_Request_Report1
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								request_id as "Request ID"
+								student as "Student"
+								faculty as "Faculty"
+								preferred_date as "Preferred Date"
+								preferred_time_slot as "Preferred Time Slot"
+								consultation_type as "Consultation Type"
+								concern_category as "Concern Category"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								request_id as "Request ID"
+								student as "Student"
+								faculty as "Faculty"
+								preferred_date as "Preferred Date"
+								preferred_time_slot as "Preferred Time Slot"
+								consultation_type as "Consultation Type"
+								concern_category as "Concern Category"
+								concern_description as "Concern Description"
+								priority as "Priority"
+								status as "Status"
+								faculty_remarks as "Faculty Remarks"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Department_Master_Report1
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								department_id as "Department ID"
+								department_name as "Department Name"
+								department_code as "Department Code"
+								office_email as "Office Email"
+								department_coordinator as "Department Coordinator"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								department_id as "Department ID"
+								department_name as "Department Name"
+								department_code as "Department Code"
+								office_email as "Office Email"
+								department_coordinator as "Department Coordinator"
+								status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Consultation_Record_Feedback_Report1
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								appointment as "Appointment"
+								student as "Student"
+								faculty as "Faculty"
+								consultation_date as "Consultation Date"
+								discussion_summary as "Discussion Summary"
+								advice_action_items as "Advice / Action Items"
+								outcome_status as "Outcome Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								appointment as "Appointment"
+								student as "Student"
+								faculty as "Faculty"
+								consultation_date as "Consultation Date"
+								discussion_summary as "Discussion Summary"
+								advice_action_items as "Advice / Action Items"
+								outcome_status as "Outcome Status"
+								follow_up_required as "Follow-up Required"
+								follow_up_date as "Follow-up Date"
+								student_rating as "Student Rating"
+								student_feedback as "Student Feedback"
+								closure_status as "Closure Status"
+								Sentiment as "Sentiment Analysis"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Appointment_Report1
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								appointment_id as "Appointment ID"
+								consultation_request as "Consultation Request"
+								student as "Student"
+								faculty as "Faculty"
+								appointment_date as "Appointment Date"
+								start_time as "Start Time"
+								end_time as "End Time"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								appointment_id as "Appointment ID"
+								consultation_request as "Consultation Request"
+								student as "Student"
+								faculty as "Faculty"
+								appointment_date as "Appointment Date"
+								start_time as "Start Time"
+								end_time as "End Time"
+								mode as "Mode"
+								location_meeting_link as "Location / Meeting Link"
+								status as "Status"
+								confirmation_sent as "Confirmation Sent"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report sentiment_analysis_dashboard
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								student as "Student"
+								faculty as "Faculty"
+								consultation_date as "Consultation Date"
+								outcome_status as "Outcome Status"
+								Sentiment as "Sentiment Analysis"
+								student_rating as "Student Rating"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+							)
+						record
+						(
+							Edit   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						feedback_details
+						(
+		     				title = "Feedback Details"
+							fields
+							(
+								student as "Student"
+								faculty as "Faculty"
+								consultation_date as "Consultation Date"
+								outcome_status as "Outcome Status"
+								Sentiment as "Sentiment Analysis"
+								student_rating as "Student Rating"
+								closure_status as "Closure Status"
+								student_feedback as "Student Feedback"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+							)
+						)
+				)
+			}
+			report negative_feedback_review
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								student as "Student"
+								faculty as "Faculty"
+								consultation_date as "Consultation Date"
+								outcome_status as "Outcome Status"
+								Sentiment as "Sentiment Analysis"
+								student_rating as "Student Rating"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+							)
+						record
+						(
+							Edit   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						negative_feedback_details
+						(
+		     				title = "Negative Feedback Details"
+							fields
+							(
+								student as "Student"
+								faculty as "Faculty"
+								consultation_date as "Consultation Date"
+								outcome_status as "Outcome Status"
+								Sentiment as "Sentiment Analysis"
+								student_rating as "Student Rating"
+								closure_status as "Closure Status"
+								student_feedback as "Student Feedback"
+								follow_up_required as "Follow-up Required"
+								follow_up_date as "Follow-up Date"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+							)
+						)
+				)
+			}
+		}
+		menu
+		{
+			space Space
+			{
+				displayname = "Space"
+				icon = "objects-spaceship"
+
+				section Section_2
+				{
+					displayname = "Appointments"
+					icon = "ui-1-calendar-grid-61"
+					form  appointment
+					{
+						icon = "ui-1-bold-add"
+					}
+					report appointment_Report
+					{
+						icon = "travel-world"
+					}
+					report appointment_by_status
+					{
+						icon = "design-2-selection"
+					}
+					report Appointment_Report1
+					{
+						icon = "location-appointment"
+					}
+				}
+				section Section_3
+				{
+					displayname = "Consultation Requests"
+					icon = "design-2-selection"
+					form  consultation_request
+					{
+						icon = "ui-1-bold-add"
+					}
+					report consultation_request_Report
+					{
+						icon = "travel-world"
+					}
+					report consultation_request_by_consultation_type
+					{
+						icon = "tech-2-l-settings"
+					}
+					report Consultation_Request_Report1
+					{
+						icon = "clothes-tie-bow"
+					}
+				}
+				section Section_4
+				{
+					displayname = "Consultation Record Feedback"
+					icon = "media-1-button-record"
+					form  consultation_record_feedback
+					{
+						icon = "ui-1-bold-add"
+					}
+					report consultation_record_feedback_Report
+					{
+						icon = "travel-world"
+					}
+					report consultation_record_feedbac_by_outcome_status
+					{
+						icon = "health-heartbeat-16"
+					}
+					report Consultation_Record_Feedback_Report1
+					{
+						icon = "media-1-button-record"
+					}
+					report sentiment_analysis_dashboard
+					{
+						icon = "ui-1-database"
+					}
+					report negative_feedback_review
+					{
+						icon = "education-board-51"
+					}
+				}
+				section Section_5
+				{
+					displayname = "Department Masters"
+					icon = "design-artboard"
+					form  department_master
+					{
+						icon = "ui-1-bold-add"
+					}
+					report department_master_Report
+					{
+						icon = "travel-world"
+					}
+					report Department_Master_Report1
+					{
+						icon = "sport-crown"
+					}
+				}
+				section Section_6
+				{
+					displayname = "Faculty Masters"
+					icon = "business-businessman-03"
+					form  faculty_master
+					{
+						icon = "ui-1-bold-add"
+					}
+					report faculty_master_Report
+					{
+						icon = "travel-world"
+					}
+					report Faculty_Master_Report1
+					{
+						icon = "business-businessman-03"
+					}
+				}
+				section Section_7
+				{
+					displayname = "Faculty Availabilities"
+					icon = "business-businessman-03"
+					form  faculty_availability
+					{
+						icon = "ui-1-bold-add"
+					}
+					report faculty_availability_Report
+					{
+						icon = "business-businessman-03"
+					}
+					report faculty_availability_by_day
+					{
+						icon = "weather-sun"
+					}
+					report Faculty_Availablity_Report
+					{
+						icon = "business-businessman-03"
+					}
+				}
+				section Section_8
+				{
+					displayname = "Student Registrations"
+					icon = "education-pencil-47"
+					form  student_registration
+					{
+						icon = "ui-1-bold-add"
+					}
+					report student_registration_Report
+					{
+						icon = "travel-world"
+					}
+					report Student_Registration_Report1
+					{
+						icon = "education-pencil-47"
+					}
+				}
+				section ZC_App_Preferences
+				{
+					displayname = "App Preferences"
+					icon = "design-app"
+					systemcomponent
+					{
+						type = localization
+						displayname = "Language Selection"
+						icon = "education-language"
+					}
+					systemcomponent
+					{
+						type = connection
+						displayname = "Integrations"
+						icon = "tech-2-connection"
+					}
+				}
+				section ZC_Approvals
+				{
+					displayname = "Approvals"
+					icon = "ui-2-hourglass"
+					systemcomponent
+					{
+						type = approval
+						approval status = pending
+						displayname = "Pending Tasks"
+						icon = "ui-2-hourglass"
+					}
+					systemcomponent
+					{
+						type = approval
+						approval status = completed
+						displayname = "Completed Tasks"
+						icon = "design-todo"
+					}
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+				section MentorConnect_Dashboard
+				{
+					displayname = "MentorConnect Dashboard"
+					icon = "ui-1-dashboard-half"
+					page MentorConnect_Dashboard1
+					{
+						icon = "ui-1-dashboard-half"
+					}
+				}
+			}
+			preference
+			{
+				icon
+				{
+					style = solid
+					show = {space,section,component}
+				}
+			}
+		}
+		customize
+		{
+			layout
+			{
+				theme = "theme_7"
+			}
+			font = "lato"
+			color options
+			{
+				color = "11"
+			}
+			logo
+			{
+				preference = "app_icon"
+				placement = "left"
+			}
+		}
+	}
+	phone
+	{
+		forms
+		{
+			form appointment
+			{
+				label placement = auto
+			}
+			form consultation_record_feedback
+			{
+				label placement = auto
+			}
+			form consultation_request
+			{
+				label placement = auto
+			}
+			form department_master
+			{
+				label placement = auto
+			}
+			form faculty_availability
+			{
+				label placement = auto
+			}
+			form faculty_master
+			{
+				label placement = auto
+			}
+			form student_registration
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = twocolumn
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = chryslerpurple
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	tablet
+	{
+		forms
+		{
+			form appointment
+			{
+				label placement = auto
+			}
+			form consultation_record_feedback
+			{
+				label placement = auto
+			}
+			form consultation_request
+			{
+				label placement = auto
+			}
+			form department_master
+			{
+				label placement = auto
+			}
+			form faculty_availability
+			{
+				label placement = auto
+			}
+			form faculty_master
+			{
+				label placement = auto
+			}
+			form student_registration
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = rose
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	translation
+{
+{"Language_Settings":{"LANGAGUE_WITH_LOGIN":"browser"}}
+}
+}
